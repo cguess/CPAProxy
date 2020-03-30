@@ -20,8 +20,8 @@ SDK=$1
 if [ "${SDK}" == "" ]
 then
   SDK_PREFIX="iphoneos"
-  if [ "$PLATFORM_TARGET" == "macOS" ]; then
-    SDK_PREFIX="macosx"
+  if [ "$PLATFORM_TARGET" == "macOS 10.15" ]; then
+    SDK_PREFIX="macOS 10.15"
   fi
   AVAIL_SDKS=`xcodebuild -showsdks | grep "$SDK_PREFIX"`
   FIRST_SDK=`echo "$AVAIL_SDKS" | head -n1`
@@ -39,9 +39,9 @@ if [ -n "${ARCHS}" ]; then
   echo "Building user-defined architectures: ${ARCHS}"
 else
 	if [ "$PLATFORM_TARGET" == "iOS" ]; then
-  	ARCHS="i386 x86_64 armv7 arm64"
+  	ARCHS="x86_64 armv7 arm64"
   else
-  	ARCHS="i386 x86_64"
+  	ARCHS="x86_64"
   fi
   echo "Building architectures: ${ARCHS}"
 fi
@@ -101,11 +101,11 @@ do
 	    fi
 	   	export PLATFORM_VERSION_MIN="-miphoneos-version-min=${MIN_IOS_VERSION}"
   	else
-  		PLATFORM="MacOSX"
-	    PLATFORM_SDK="macosx${SDK}"
+  		# PLATFORM="MacOSX"
+	   #  PLATFORM_SDK="macosx${SDK}"
 	    export PLATFORM_VERSION_MIN="-mmacosx-version-min=${MIN_OSX_VERSION}"
   	fi
-    
+
     ROOTDIR="${BUILD_DIR}/${PLATFORM}-${SDK}-${ARCH}"
     rm -rf "${ROOTDIR}"
     mkdir -p "${ROOTDIR}"
@@ -144,7 +144,7 @@ do
     else
       ../build-${LIBRARY}.sh
     fi
-    
+
     # Remove junk
     rm -rf "${ROOTDIR}"
   done
